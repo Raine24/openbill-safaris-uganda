@@ -1,0 +1,27 @@
+# Demo video screen recordings and capture dumps (exceed GitHub size limits)
+/*.mp4
+walkthrough_raw/
+temp_test_video/
+
+# Allow website background media video
+!media/explore-uganda.mp4
+!media/*.mp4
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+env/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

@@ -1,0 +1,466 @@
+/* ==========================================================================
+   Openbill Safaris Uganda — Custom Token-Driven Extensions on Red Dot System
+   ========================================================================== */
+
+:root {
+  --token-font-primary: 'PPNeueMontreal-Regular', Helvetica, Arial, sans-serif;
+  --token-font-medium: 'PPNeueMontreal-Medium', Helvetica, Arial, sans-serif;
+  --token-font-serif: 'F37Wicklow-Light', Georgia, serif;
+  --token-font-hand: 'SeptemberSpirit', cursive;
+
+  --token-size-xs: 12.85px;
+  --token-size-sm: 13.61px;
+  --token-size-md: 15.42px;
+  --token-size-lg: 15.76px;
+  --token-size-xl: 17.14px;
+  --token-size-2xl: 20.72px;
+  --token-size-3xl: 23.05px;
+  --token-size-4xl: 30.84px;
+
+  --token-color-text-primary: #5c5448;
+  --token-color-text-secondary: #f4f3ef;
+  --token-color-text-tertiary: #969391;
+  --token-color-text-inverse: #ffffff;
+  --token-color-surface-base: #000000;
+  --token-color-surface-muted: #090807;
+  --token-color-surface-strong: #2c2623;
+  --token-color-surface-cream: #f4f3ef;
+  --token-color-accent-red: #da291c;
+  --token-color-border-strong: rgba(92, 84, 72, 0.25);
+
+  --token-space-1: 5.77px;
+  --token-space-2: 9.94px;
+  --token-space-3: 12.42px;
+  --token-space-4: 15.42px;
+  --token-space-5: 16.14px;
+  --token-space-6: 17.14px;
+  --token-space-7: 23.13px;
+  --token-space-8: 24.84px;
+
+  --token-radius-xs: 24.84px;
+  --token-radius-sm: 28.54px;
+  --token-radius-md: 49.68px;
+
+  --token-duration-instant: 300ms;
+  --token-duration-fast: 400ms;
+  --token-duration-normal: 600ms;
+  --token-duration-slow: 1500ms;
+}
+
+/* WCAG 2.2 AA Keyboard Focus-Visible Indicators */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--token-color-accent-red) !important;
+  outline-offset: 3px !important;
+}
+
+/* Header Favourites Counter Pill */
+.siteHeader__favourites {
+  position: relative;
+}
+
+.siteHeader__favCount {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background-color: var(--token-color-accent-red);
+  color: var(--token-color-text-inverse);
+  font-family: var(--token-font-medium);
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.siteHeader__favCount[hidden] {
+  display: none !important;
+}
+
+/* Ensure alternate trip listing hover images start hidden before GSAP initializes */
+.tripListings--alternate .tripListings__image {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Card Wishlist Heart Button on Itinerary Cards */
+.card__favBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 4;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(9, 8, 7, 0.45);
+  backdrop-filter: blur(6px);
+  color: var(--token-color-text-inverse);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--token-duration-instant) cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card__favBtn:hover,
+.card__favBtn.is-Saved {
+  background: var(--token-color-accent-red);
+  border-color: var(--token-color-accent-red);
+  color: var(--token-color-text-inverse);
+  transform: scale(1.06);
+}
+
+.card__favBtn svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.card__favBtn.is-Saved svg {
+  fill: currentColor;
+}
+
+/* Destination Filter Pills in Itineraries Section */
+.openbillFilterBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--token-space-2);
+  margin-top: var(--token-space-6);
+}
+
+.openbillFilterBar__btn {
+  appearance: none;
+  border: 1px solid rgba(92, 84, 72, 0.32);
+  background: transparent;
+  color: var(--token-color-text-primary);
+  font-family: var(--token-font-primary);
+  font-size: var(--token-size-sm);
+  padding: 8px 18px;
+  border-radius: var(--token-radius-md);
+  cursor: pointer;
+  transition: all var(--token-duration-instant) cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.openbillFilterBar__btn:hover {
+  border-color: var(--token-color-surface-strong);
+  background-color: rgba(44, 38, 35, 0.06);
+}
+
+.openbillFilterBar__btn.active {
+  background-color: var(--token-color-surface-strong);
+  border-color: var(--token-color-surface-strong);
+  color: var(--token-color-text-secondary);
+}
+
+/* Reviews Links Partner Logo Polish */
+.reviewsLinks__item img.openbill-review-badge {
+  max-height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   Openbill Interactive Modal & Drawer (dialog#openbillSafariModal.obModal)
+   ========================================================================== */
+dialog.obModal {
+  border: none;
+  padding: 0;
+  width: min(980px, 94vw);
+  max-height: 90vh;
+  background: var(--token-color-surface-cream);
+  color: var(--token-color-surface-strong);
+  border-radius: var(--token-radius-xs);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.55);
+  overflow-y: auto;
+}
+
+dialog.obModal::backdrop {
+  background: rgba(9, 8, 7, 0.74);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.obModal__inner {
+  padding: 36px 42px 42px;
+  position: relative;
+}
+
+@media (max-width: 640px) {
+  .obModal__inner {
+    padding: 24px 20px 28px;
+  }
+}
+
+.obModal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(92, 84, 72, 0.18);
+}
+
+.obModal__eyebrow {
+  font-family: var(--token-font-hand);
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--token-color-text-primary);
+  margin: 0 0 6px;
+}
+
+.obModal__title {
+  font-family: var(--token-font-serif);
+  font-size: var(--token-size-4xl);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--token-color-surface-strong);
+  margin: 0;
+}
+
+.obModal__title i {
+  font-style: italic;
+}
+
+.obModal__close {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(44, 38, 35, 0.2);
+  background: #ffffff;
+  color: var(--token-color-surface-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--token-duration-instant) ease;
+}
+
+.obModal__close:hover {
+  background: var(--token-color-surface-strong);
+  color: var(--token-color-text-secondary);
+  transform: rotate(90deg);
+}
+
+.obModal__hero {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 300px;
+  margin-bottom: 22px;
+  background: var(--token-color-surface-strong);
+}
+
+.obModal__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.obModal__heroMeta {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.obModal__pill {
+  background: rgba(9, 8, 7, 0.78);
+  backdrop-filter: blur(6px);
+  color: var(--token-color-text-secondary);
+  padding: 6px 14px;
+  border-radius: var(--token-radius-md);
+  font-size: var(--token-size-xs);
+}
+
+.obModal__pill--strong {
+  background: var(--token-color-accent-red);
+  color: var(--token-color-text-inverse);
+  font-family: var(--token-font-medium);
+}
+
+.obModal__lead {
+  font-size: var(--token-size-lg);
+  line-height: 1.6;
+  color: var(--token-color-text-primary);
+  margin: 0 0 22px;
+}
+
+.obModal__columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-bottom: 26px;
+}
+
+@media (max-width: 720px) {
+  .obModal__columns {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.obModal__subhead {
+  font-family: var(--token-font-medium);
+  font-size: var(--token-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--token-color-surface-strong);
+  margin: 0 0 12px;
+}
+
+.obModal__routeList,
+.obModal__highlightList {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--token-color-text-primary);
+  font-size: var(--token-size-md);
+  line-height: 1.65;
+}
+
+.obModal__routeList li,
+.obModal__highlightList li {
+  margin-bottom: 6px;
+}
+
+.obModal__actionsBar,
+.obModal__formFooter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid rgba(92, 84, 72, 0.16);
+}
+
+.obModal__formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 680px) {
+  .obModal__formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.obModal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obModal__field label {
+  font-size: var(--token-size-xs);
+  font-family: var(--token-font-medium);
+  color: var(--token-color-surface-strong);
+}
+
+.obModal__field label span {
+  color: var(--token-color-accent-red);
+}
+
+.obModal__field input,
+.obModal__field select,
+.obModal__field textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(92, 84, 72, 0.28);
+  background: #ffffff;
+  color: var(--token-color-surface-strong);
+  font-family: var(--token-font-primary);
+  font-size: var(--token-size-md);
+}
+
+.obModal__status {
+  margin-top: 16px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: var(--token-color-surface-strong);
+  color: var(--token-color-text-secondary);
+  font-size: var(--token-size-md);
+  line-height: 1.55;
+}
+
+.obModal__favGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.obModal__favCard {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(92, 84, 72, 0.16);
+  display: flex;
+  flex-direction: column;
+}
+
+.obModal__favCard img {
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+}
+
+.obModal__favCardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obModal__tag {
+  font-size: var(--token-size-xs);
+  color: var(--token-color-text-tertiary);
+}
+
+.obModal__favCardBody h4 {
+  font-family: var(--token-font-serif);
+  font-size: var(--token-size-2xl);
+  margin: 0;
+  color: var(--token-color-surface-strong);
+}
+
+.obModal__favCardBody p {
+  font-size: var(--token-size-sm);
+  color: var(--token-color-text-primary);
+  margin: 0 0 8px;
+}
+
+.obModal__favActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.obModal__removeBtn {
+  background: none;
+  border: none;
+  color: var(--token-color-text-tertiary);
+  font-size: var(--token-size-xs);
+  text-decoration: underline;
+  cursor: pointer;
+}
